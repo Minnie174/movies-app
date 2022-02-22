@@ -1,17 +1,34 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import App from "./components/app";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<App />, document.getElementById('root'));
+
+console.log('hello woek');
+
+const x = fetch('https://api.themoviedb.org/3/search/movie?api_key=58ef46feba513b0472d131fa50c82f3b&query=Jack')
+    .then((res) => {
+        return res.json();
+    })
+    .then((body) => {
+        const movie = body.results;
+        movie.forEach(elem => console.log(elem.poster_path))
+    })
+
+
+// getResource('https://api.themoviedb.org/3/search/movie?api_key=58ef46feba513b0472d131fa50c82f3b&query=Jack+Reacher')
+//     .then((res) => {
+//         console.log(res)
+//     });
+
+// const x = fetch('https://api.themoviedb.org/3/search/movie?api_key=58ef46feba513b0472d131fa50c82f3b&query=Jack+Reacher')
+//     .then((res) => {
+//         return res.json();
+//     })
+//     .then((body) => {
+//         console.log(body);
+//     });
+//
+//
+// console.log(x);

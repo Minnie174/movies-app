@@ -1,0 +1,68 @@
+body {
+    background-color: #F7F7F7;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    background-color: white;
+    margin: auto;
+    width: 1000px;
+    display: flex;
+    overflow: hidden;
+}
+
+.movie-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: white;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.movie {
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+    height: 280px;
+    margin: 20px;
+    box-shadow: 5px 4px 12px -6px rgba(0, 0, 0, 0.15);
+}
+
+.poster {
+    width: 185px;
+    height: 280px;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-left: 20px;
+    margin-right: 20px;
+}
+
+.title {
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.year {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.genre {
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.info {
+    font-size: 12px;
+    line-height: 22px;
+    height: 130px;
+    overflow-y: hidden;
+}
