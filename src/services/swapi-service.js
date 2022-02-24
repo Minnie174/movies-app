@@ -20,14 +20,14 @@ export default class SwapiService {
         return res1.results;
     }
 
-    async getPosterPath() {
-        const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
-        const poster = res2.results;
-        return poster.forEach(elem => elem.poster_path)
-        // return this.getJack().then((res) => res.forEach((elem) => elem.poster_path)); forEach(elem => elem.poster_path)
-    }
-
-    async getPicture() {
-        const res3 = await this.getResource(`${this.imageUrl}`)
-    }
+    // async getPosterPath() {
+    //     const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
+    //     const poster = res2.results;
+    //     return poster.forEach(elem => elem.poster_path)
+    //     // return this.getJack().then((res) => res.forEach((elem) => elem.poster_path)); forEach(elem => elem.poster_path)
+    // }
+    //
+    // async getPicture() {
+    //     const res3 = await this.getResource(`${this.imageUrl}`)
+    // }
 };
