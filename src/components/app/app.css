@@ -9,6 +9,7 @@ body {
     margin: auto;
     width: 1000px;
     display: flex;
+    flex-direction: column;
     overflow: hidden;
 }
 
@@ -65,4 +66,10 @@ body {
     line-height: 22px;
     height: 130px;
     overflow-y: hidden;
+}
+
+.tabs {
+    display: flex;
+    width: 1000px;
+    height: 50px;
 }

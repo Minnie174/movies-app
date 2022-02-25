@@ -5,8 +5,8 @@ import './spinner.css';
 
 const Spinner = () => {
     return (
-        <div>
-            <Spin />
+        <div className="spinner">
+            <Spin size="middle"/>
         </div>
     )
 }
