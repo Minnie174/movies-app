@@ -17,7 +17,19 @@ export default class SwapiService {
 
     async getJack() {
         const res1 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
-        return res1.results;
+        console.log(res1)
+        return res1;
+    }
+
+    async getMovie(query) {
+        const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}`);
+        return res2;
+    }
+
+    async nextPage(query, pageNum) {
+        const res3 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}&page=${pageNum}`);
+        console.log(res3);
+        return res3;
     }
 
     // async getPosterPath() {

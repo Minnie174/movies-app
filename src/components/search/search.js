@@ -1,11 +1,13 @@
 import React from "react";
+import {debounce} from "lodash";
+import {Input} from "antd";
 
 import './search.css';
 
-const Search = () => {
+const Search = ({onMovie}) => {
     return (
         <div>
-            <input className="input" placeholder="Type any movie"/>
+            <Input type="text" className="input" placeholder="Type any movie" onChange={debounce(onMovie, 1000)}/>
         </div>
     )
 };

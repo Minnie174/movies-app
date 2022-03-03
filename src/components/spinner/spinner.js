@@ -6,7 +6,7 @@ import './spinner.css';
 const Spinner = () => {
     return (
         <div className="spinner">
-            <Spin size="middle"/>
+            <Spin size="large"/>
         </div>
     )
 }

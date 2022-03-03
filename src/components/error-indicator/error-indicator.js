@@ -3,9 +3,12 @@ import { Alert } from "antd";
 import './error-indicator.css';
 
 const ErrorIndicator = () => {
+    const onClose = (e) => {
+        console.log(e, 'closed')
+    }
     return (
-        <div>
-            <Alert message="Something went wrong" type="error" closable/>
+        <div className="error">
+            <Alert message="Something went wrong" type="error" closable onClose={onClose}/>
         </div>
     )
 };
