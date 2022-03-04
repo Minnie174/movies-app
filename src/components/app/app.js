@@ -108,7 +108,7 @@ export default class App extends Component {
     // }
 
     onChangePage = async (curr=1) => { // менять стейт в зависимости от страницы. нужен fetch-запрос (принимает .target.value и pageNum).
-        const search1 = this.state.query
+        const search1 = this.state.query // получаем запрос из поиска, чтобы вставить в fecht
         // if (search1 === null) {
         //     return null;
         // }
@@ -127,7 +127,7 @@ export default class App extends Component {
             totalPages: movies2.total_pages,
             totalResults: movies2.total_results,
         }))
-        console.log(movies2.page)
+        console.log(this.state.totalResults)
     }
 
     render() {
@@ -167,11 +167,11 @@ export default class App extends Component {
                     <Search onMovie={this.onSearch}/>
                 </div>
                 {spinner}
-                <MovieList movies={current}
+                <MovieList movies={movies}
                            />
                 {notification}
                 <PaginationMovie moviesPerPage={moviesPerPage}
-                                 // totalMovies={totalResults}
+                                 totalMovies={totalResults}
                                  onClickPage={this.onChangePage}
                 />
             </div>
