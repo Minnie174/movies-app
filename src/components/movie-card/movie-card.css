@@ -1,0 +1,23 @@
+.movie {
+    background-color:#f0f2f5;
+}
+
+.title {
+    display: flex;
+    color: #000000;
+}
+.rating {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #E9D100;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.rate-tab {
+    background-color:white;
+}
+
+.year {
+    color: #827E7E;
+}

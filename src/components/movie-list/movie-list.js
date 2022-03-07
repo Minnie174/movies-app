@@ -4,7 +4,7 @@ import MovieCard from "../movie-card";
 
 import './movie-list.css';
 
-const MovieList = ({movies}) => {
+const MovieList = ({movies, onChangeRating}) => {
     const movie = movies.map((el) => {
         return (
             <div key={el.id}>
@@ -14,7 +14,9 @@ const MovieList = ({movies}) => {
                     year={el.release_date}
                     genre={el.genre_ids}
                     info={el.overview}
+                    rating={el.vote_average}
                     movies={movies}
+                    onChangeRating={onChangeRating}
                 />
             </div>
         )

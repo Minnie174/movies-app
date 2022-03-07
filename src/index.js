@@ -6,6 +6,7 @@ import App from "./components/app";
 ReactDOM.render(<App />, document.getElementById('root'));
 
 console.log('hello woek');
+localStorage.clear()
 
 // const x = fetch('https://api.themoviedb.org/3/search/movie?api_key=58ef46feba513b0472d131fa50c82f3b&query=Jack')
 //     .then((res) => {

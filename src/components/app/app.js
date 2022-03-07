@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Tabs } from "antd";
 import 'antd/dist/antd.css';
 import {debounce} from "lodash";
+import { GetGenresProvider, GetGenresConsumer } from "../../services/api-service-context";
 
 import Spinner from "../spinner";
 import ErrorIndicator from "../error-indicator";
@@ -31,7 +32,8 @@ export default class App extends Component {
         currentPage: 1, // менять при пагинации
         query: null, // тоже передаем в пагинацию (?), а нафига так-то..
         moviesPerPage: 10,
-        totalResults: null
+        totalResults: null,
+        genress: {}
     }
 
     componentDidMount() {
@@ -47,6 +49,7 @@ export default class App extends Component {
         }
         catch {
             this.onError()
+            console.log('catch, did')
         }
     }
 
@@ -57,7 +60,7 @@ export default class App extends Component {
         })
         try {
             const movies1 = await this.apiService.getMovie(search);
-            console.log(movies1)
+            const genres1 = await this.apiService.getGenre();
             this.setState(() => ({
                 query: search,
                 movies: movies1.results,
@@ -65,8 +68,11 @@ export default class App extends Component {
                 totalPages: movies1.total_pages,
                 totalResults: movies1.total_results,
                 isNotificate: false,
-                currentPage: 1
+                currentPage: 1,
+                genress: genres1
             }))
+            console.log(this.state.genress) // получаем в стейте массив с жанрами, а теперь в onGetGenres нужно менять стейт - чтобы массив
+            // приходил из мувикард.
             if (movies1.total_results === 0) {
                 this.onNotificate()
             }
@@ -76,6 +82,10 @@ export default class App extends Component {
             console.log('catch')
         }
     } // ищем фильмы и впихиваем их в стейт
+
+    onChangeRating() {
+        console.log('CLICKED');
+    }
 
     getJackMovie = async () => {
         const movies = await this.apiService.getJack();
@@ -94,18 +104,6 @@ export default class App extends Component {
             isNotificate: true
         })
     } // уведомление, что фильм не найден
-
-    getSearch = debounce((event) => {
-        console.log(event.target.value)
-        const targetValue = event.target.value
-        this.setState({searchMovie: targetValue})
-    }, 700); // получаем результат поиска
-
-    // getPag = async () => {
-    //     console.log(this.state.searchMovie)
-    //     const mov = await this.apiService.getMovie(this.state.searchMovie);
-    //     console.log(mov)
-    // }
 
     onChangePage = async (curr=1) => { // менять стейт в зависимости от страницы. нужен fetch-запрос (принимает .target.value и pageNum).
         const search1 = this.state.query // получаем запрос из поиска, чтобы вставить в fecht
@@ -128,6 +126,14 @@ export default class App extends Component {
             totalResults: movies2.total_results,
         }))
         console.log(this.state.totalResults)
+    }
+
+    onGetGenre = async () => { // получаем жанры и запихиваем в стейт?
+        const genres = this.apiService.getGenre();
+        this.setState(({genre}) => ({
+            genre: genres
+        }))
+        console.log(this.state.genre)// получаем массив с объектами, который можем прогнать через filter и map.
     }
 
     render() {
@@ -155,6 +161,7 @@ export default class App extends Component {
 
         return (
             <div className="wrapper">
+                <GetGenresProvider value={this.state.genress}>
                 <Tabs className="tabs" defaultActiveKey="1" centered>
                     <TabPane tab="Search" key="1">
                         Key
@@ -168,12 +175,14 @@ export default class App extends Component {
                 </div>
                 {spinner}
                 <MovieList movies={movies}
+                           onChangeRating={this.onChangeRating}
                            />
                 {notification}
                 <PaginationMovie moviesPerPage={moviesPerPage}
                                  totalMovies={totalResults}
                                  onClickPage={this.onChangePage}
                 />
+                </GetGenresProvider>
             </div>
         )
     };

@@ -32,6 +32,11 @@ export default class SwapiService {
         return res3;
     }
 
+    async getGenre() {
+        const res4 = await this.getResource(`${this.apiBase}genre/movie/list?api_key=${this.apiKey}`)
+        return res4.genres;
+    }
+
     // async getPosterPath() {
     //     const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
     //     const poster = res2.results;
