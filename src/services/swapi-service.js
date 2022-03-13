@@ -24,27 +24,16 @@ export default class SwapiService {
     async getMovie(query) {
         const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}`);
         return res2;
-    }
+    } // получаем фильмы по поиску
 
     async nextPage(query, pageNum) {
         const res3 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}&page=${pageNum}`);
         console.log(res3);
         return res3;
-    }
+    } // переключает пагинацию
 
     async getGenre() {
         const res4 = await this.getResource(`${this.apiBase}genre/movie/list?api_key=${this.apiKey}`)
         return res4.genres;
-    }
-
-    // async getPosterPath() {
-    //     const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
-    //     const poster = res2.results;
-    //     return poster.forEach(elem => elem.poster_path)
-    //     // return this.getJack().then((res) => res.forEach((elem) => elem.poster_path)); forEach(elem => elem.poster_path)
-    // }
-    //
-    // async getPicture() {
-    //     const res3 = await this.getResource(`${this.imageUrl}`)
-    // }
+    } // выводит массив с жанрами
 };

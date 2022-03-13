@@ -21,7 +21,9 @@ export default class App extends Component {
 
     apiService = new SwapiService();
 
-    maxId = 1;
+    // maxId = 1;
+
+    storage = window.localStorage;
 
     state = {
         movies: [],
@@ -33,24 +35,35 @@ export default class App extends Component {
         query: null, // тоже передаем в пагинацию (?), а нафига так-то..
         moviesPerPage: 10,
         totalResults: null,
-        genress: {}
+        genress: {},
+        rated: []
     }
 
     componentDidMount() {
-        try {
-            this.getMovie()
-                .then((movies) => {
-                    this.setState({
-                        movies: movies.results,
-                        totalPages: movies.total_pages
-                    })
-                    console.log(this.state.totalPages);
-                })
-        }
-        catch {
-            this.onError()
-            console.log('catch, did')
-        }
+
+        // делаем запрос к апи (?)
+        // если локал не пустой, то записыааем в rated то, что там есть
+
+        // const ifRated = this.storage.getItem('id') === 'true';
+        //
+        // console.log(ifRated)
+        // this.setState(({rated}) => ({
+        //     rated: 1
+        // }))
+        // try {
+        //     this.getMovie()
+        //         .then((movies) => {
+        //             this.setState({
+        //                 movies: movies.results,
+        //                 totalPages: movies.total_pages
+        //             })
+        //             console.log(this.state.totalPages);
+        //         })
+        // }
+        // catch {
+        //     this.onError()
+        //     console.log('catch, did')
+        // }
     }
 
     onSearch = async (e) => {
@@ -59,21 +72,19 @@ export default class App extends Component {
             loading: true
         })
         try {
-            const movies1 = await this.apiService.getMovie(search);
-            const genres1 = await this.apiService.getGenre();
+            const moviesList = await this.apiService.getMovie(search);
+            const genresRes = await this.apiService.getGenre();
             this.setState(() => ({
                 query: search,
-                movies: movies1.results,
+                movies: moviesList.results,
                 loading: false,
-                totalPages: movies1.total_pages,
-                totalResults: movies1.total_results,
+                totalPages: moviesList.total_pages,
+                totalResults: moviesList.total_results,
                 isNotificate: false,
                 currentPage: 1,
-                genress: genres1
+                genress: genresRes
             }))
-            console.log(this.state.genress) // получаем в стейте массив с жанрами, а теперь в onGetGenres нужно менять стейт - чтобы массив
-            // приходил из мувикард.
-            if (movies1.total_results === 0) {
+            if (moviesList.total_results === 0) {
                 this.onNotificate()
             }
 
@@ -83,14 +94,78 @@ export default class App extends Component {
         }
     } // ищем фильмы и впихиваем их в стейт
 
-    onChangeRating() {
-        console.log('CLICKED');
+    onChangeRating = (id) => { // пихаем в локал и потом в отдельный стейт - формируем стейт с
+
+        this.storage.setItem(id, 'true') // устанавливаем айди и ключ тру
+        // если ключ в локал равен id в мувис, то мы его выводим.
+        const movies1 = this.state.movies
+        this.storage.setItem('movies', JSON.stringify(movies1)) // пихаем изначальный массив с фильмами в локал
+        const value = JSON.parse(this.storage.getItem(id)) // true
+        const x = JSON.parse(this.storage.getItem('movies')) // массив с объектами, которые нам надо перебрать и запихать в стейт с
+        this.setState(({movies, rated}) => {
+            const list = [];
+            for (let i = 0; i < this.storage.length; i++) {
+                // let yy = movies.map((el) => {
+                //     const card = {...el} // карта одного фильма
+                //     if (card.id === id) {
+                //
+                //     }
+                //     const yyy = JSON.parse(this.storage.key(i))
+                // })
+                const xxx = this.storage.key(i)// айдишники выходят. теперь по ним нужно сравнивать
+                list.push(xxx)
+                console.log(list)
+            }
+            // this.storage.setItem('movies', newCard);
+            // const xx = JSON.parse(this.storage.getItem('movies'))
+            return {
+                rated: list // запихались айдишники
+            }
+        })
+        console.log(this.state.rated)
+
+        const movies3 = []
+        const y = x.filter((el) => el.id === id) // массив с объектом фильма, который нам надо запихнуть в другой массив. который в итоге запихнется в стейт
+        const z = movies3.push(y)
+
+        this.addRating(id)
     }
 
-    getJackMovie = async () => {
-        const movies = await this.apiService.getJack();
-        return movies;
-    } // массив с фильмами - потом убрать; раньше был в ComponentDidMount
+    handleRating = (id) => {
+        console.log(id)
+    }
+
+    onTry(id) {
+        const ifRated = this.storage.getItem(id) === 'true'; // надо достать карточки фильмап по айди и запихнуть их в стейт
+        const moviesList = this.state.movies // из этого массива нам нужно достать фильм по айди и запихнуть в rated
+        const newData = moviesList.map((el) => {
+            return {...el}
+        })
+        console.log(newData)
+        // прогоняем стейт через map, выводим только те, где id совпадает с card.id - формируем новый стейт
+        const res1 = moviesList.map((el) => {
+            const card = {...el} // один элемент
+            console.log(card)
+            if (card.id === id) {
+                this.setState(() => ({rated: card}))
+            }
+            return card
+        })
+        console.log(res1, this.state.rated)
+        // const res = moviesList.filter(el => ifRated ? this.setState(() => ({rated: el})) : [])
+        // console.log(res)
+        console.log(ifRated) // по айди нам нужно вытащить фильмы, которые ему соответствуют и запихнуть в стейт rated.
+
+
+        const mov = this.state.movies
+        const mov2 = mov.map(elem => elem.id) //  нам нужно вывести конкретный айди и его сохранить в локал - выцеплять айдишник.
+    } // написать функцию, по которой мы будем вытаскивать key и по нему сохранять элемент в локал
+    // id запихивать теперь в localStorage. потом смотреть, какие айди лежат в локал и запихивать их в новый стейт. Если в локал есть эти айди, то выводить их в новый стейт (через мап мб).
+
+    addRating = (id) => {
+        console.log(id)
+        return id
+    }
 
     onError = (err) => {
         this.setState({
@@ -105,16 +180,11 @@ export default class App extends Component {
         })
     } // уведомление, что фильм не найден
 
-    onChangePage = async (curr=1) => { // менять стейт в зависимости от страницы. нужен fetch-запрос (принимает .target.value и pageNum).
-        const search1 = this.state.query // получаем запрос из поиска, чтобы вставить в fecht
-        // if (search1 === null) {
-        //     return null;
-        // }
+    onChangePage = async (curr=1) => { // меняем стейт в зависимости от страницы
+        const search1 = this.state.query
         this.setState({
             loading: true
         })
-
-        console.log(this.state.query)
         const movies2 = await this.apiService.nextPage(search1, curr)
         this.setState(() => ({
             movies: movies2.results,
@@ -125,15 +195,6 @@ export default class App extends Component {
             totalPages: movies2.total_pages,
             totalResults: movies2.total_results,
         }))
-        console.log(this.state.totalResults)
-    }
-
-    onGetGenre = async () => { // получаем жанры и запихиваем в стейт?
-        const genres = this.apiService.getGenre();
-        this.setState(({genre}) => ({
-            genre: genres
-        }))
-        console.log(this.state.genre)// получаем массив с объектами, который можем прогнать через filter и map.
     }
 
     render() {
@@ -163,10 +224,10 @@ export default class App extends Component {
             <div className="wrapper">
                 <GetGenresProvider value={this.state.genress}>
                 <Tabs className="tabs" defaultActiveKey="1" centered>
-                    <TabPane tab="Search" key="1">
-                        Key
+                    <TabPane classname="tab-pane" tab="Search" key="1">
+                        {spinner}
                     </TabPane>
-                    <TabPane tab="Rated">
+                    <TabPane classname="tab-pane" tab="Rated" key="2">
                         Hey
                     </TabPane>
                 </Tabs>
@@ -176,6 +237,8 @@ export default class App extends Component {
                 {spinner}
                 <MovieList movies={movies}
                            onChangeRating={this.onChangeRating}
+                           onChangeR={this.handleRating}
+                           onClickStar={this.onClickStar}
                            />
                 {notification}
                 <PaginationMovie moviesPerPage={moviesPerPage}

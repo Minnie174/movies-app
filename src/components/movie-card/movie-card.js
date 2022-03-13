@@ -8,11 +8,18 @@ import SwapiService from "../../services/swapi-service";
 
 const apiService = new SwapiService();
 
-const MovieCard = ({image, title, year, genre, info, rating, onChangeRating}) => {
+export default class MovieCard extends Component {
+    state = {
+        rated: []
+    }
 
-    // в тэг надо передавать пропсы по жанрам - для этого надо получать жанры в отдельной функции в апишке - получаем.
+    componentDidMount() {
+        this.setState(({rated}) => {
 
-    const date = (dateRelease) => {
+        })
+    }
+
+    getDate = (dateRelease) => {
         if (dateRelease === null || dateRelease === "" || dateRelease === undefined) {
             return 'Movie id really old'
         }
@@ -20,48 +27,146 @@ const MovieCard = ({image, title, year, genre, info, rating, onChangeRating}) =>
         return res
     }
 
-    const picture = image === null ? '/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg' : image // заглушка
+    getRatedMovie = () => {
+        // здесь нужно менять стейт, по факту, и запихивать стейт в rated. Нам нужно получать айди фильма
+    }
 
-    const getGenre = (arr, num) => {
-        // console.log(arr) // массив с объектом и числами - его сравнивать с тем, что у нас уже есть
-        // console.log(num) // массив того, что у нас есть - каждое число нужно прогнать через фильтр.
-
+    getGenre = (arr, num) => {
         const res2 = arr.filter(el => num.includes(el.id));
         const res3 = res2.map(elem => elem.name)
         return res3.join(', ')
-         // мы выводим только те объекты, где есть эти числа. а в тэг выводим значение name
-         // промис
-        // здесь нам нужен массив со всеми жанрами, из которого мы вытащим только те, которые нужны нам - то есть, его нужна передать из апп?
-        // приводим к строке через запятую, прогоняем через filter и map (?) выводим из айпишки числа и name. И выводим name в тэг.
     }
 
-    return (
-        <div className="movie">
-            <img alt="Poster" className="poster" src={`https://image.tmdb.org/t/p/w500${picture}`} />
-            <div className="description">
-                <div className="title">{title}</div>
-                <div className="rating">
-                    <span className="rate">{rating}</span>
-                </div>
-                <div className="year">{date(year)}</div>
-                <GetGenresConsumer>
-                    {value =>
-                        <div className="genre">
-                                <Tag>
-                                    {getGenre(value, genre)}
-                                </Tag>
-                        </div>
-                    }
-                </GetGenresConsumer>
-                <div className="info">{info}
-                </div>
-                <Rate className="rate-tab" onChange={onChangeRating}/>
-            </div>
-        </div>
-    )
-};
+    render() {
+        const {image, title, year, genre, info, rating, id, rate, onChangeRating, onClickStar} = this.props;
 
-export default MovieCard;
+        const picture = image === null ? '/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg' : image // заглушка
+
+        const isRated = this.state.rated ? this.state.rated : null
+
+        if(isRated) {
+            return (
+                <div className="movie">
+                    <img alt="Poster" className="poster" src={`https://image.tmdb.org/t/p/w500${picture}`}/>
+                    <div className="description">
+                        <div className="title">{title}</div>
+                        <div className="rating">
+                            <span className="rate">{rating}</span>
+                        </div>
+                        <div className="year">{this.getDate(year)}</div>
+                        <GetGenresConsumer>
+                            {value =>
+                                <div className="genre">
+                                    <Tag>
+                                        {this.getGenre(value, genre)}
+                                    </Tag>
+                                </div>
+                            }
+                        </GetGenresConsumer>
+                        <div className="info">{info}
+                        </div>
+                        <Rate className="rate-tab"
+                              count={10}
+                              value={rate}
+                              onChange={() => onChangeRating(id)}
+                              onClick={() => onClickStar()}
+                        />
+                    </div>
+                </div>
+            )
+        }
+            return (
+                <div className="movie">
+                    <img alt="Poster" className="poster" src={`https://image.tmdb.org/t/p/w500${picture}`}/>
+                    <div className="description">
+                        <div className="title">{title}</div>
+                        <div className="rating">
+                            <span className="rate">{rating}</span>
+                        </div>
+                        <div className="year">{this.getDate(year)}</div>
+                        <GetGenresConsumer>
+                            {value =>
+                                <div className="genre">
+                                    <Tag>
+                                        {this.getGenre(value, genre)}
+                                    </Tag>
+                                </div>
+                            }
+                        </GetGenresConsumer>
+                        <div className="info">{info}
+                        </div>
+                        <Rate className="rate-tab"
+                              count={10}
+                              value={rate}
+                              onChange={() => onChangeRating(id)}
+                              onClick={() => onClickStar()}
+                        />
+                    </div>
+                </div>
+            )
+
+    }
+}
+
+// const MovieCard = ({image, title, year, genre, info, rating, id, rate, onChangeRating, onClickStar}) => {
+//
+//     // в тэг надо передавать пропсы по жанрам - для этого надо получать жанры в отдельной функции в апишке - получаем.
+//
+//     const date = (dateRelease) => {
+//         if (dateRelease === null || dateRelease === "" || dateRelease === undefined) {
+//             return 'Movie id really old'
+//         }
+//         const res = format(new Date(dateRelease), 'MMMM dd, yyyy')
+//         return res
+//     }
+//
+//     const picture = image === null ? '/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg' : image // заглушка
+//
+//     const getGenre = (arr, num) => {
+//         // console.log(arr) // массив с объектом и числами - его сравнивать с тем, что у нас уже есть
+//         // console.log(num) // массив того, что у нас есть - каждое число нужно прогнать через фильтр.
+//
+//         const res2 = arr.filter(el => num.includes(el.id));
+//         const res3 = res2.map(elem => elem.name)
+//         return res3.join(', ')
+//          // мы выводим только те объекты, где есть эти числа. а в тэг выводим значение name
+//          // промис
+//         // здесь нам нужен массив со всеми жанрами, из которого мы вытащим только те, которые нужны нам - то есть, его нужна передать из апп?
+//         // приводим к строке через запятую, прогоняем через filter и map (?) выводим из айпишки числа и name. И выводим name в тэг.
+//     }
+//
+//     return (
+//         <div className="movie">
+//             <img alt="Poster" className="poster" src={`https://image.tmdb.org/t/p/w500${picture}`} />
+//             <div className="description">
+//                 <div className="title">{title}</div>
+//                 <div className="rating">
+//                     <span className="rate">{rating}</span>
+//                 </div>
+//                 <div className="year">{date(year)}</div>
+//                 <GetGenresConsumer>
+//                     {value =>
+//                         <div className="genre">
+//                                 <Tag>
+//                                     {getGenre(value, genre)}
+//                                 </Tag>
+//                         </div>
+//                     }
+//                 </GetGenresConsumer>
+//                 <div className="info">{info}
+//                 </div>
+//                 <Rate className="rate-tab"
+//                       count={10}
+//                       value={rate}
+//                       onChange={() => onChangeRating(id)}
+//                       onClick={() => onClickStar()}
+//                 />
+//             </div>
+//         </div>
+//     )
+// };
+//
+// export default MovieCard;
 
 // eslint-disable-next-line react/prefer-stateless-function
 // export default class MovieCard extends Component {
