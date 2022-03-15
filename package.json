@@ -22,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "master build",
+    "deploy": "gh-pages -g build",
     "lint": "eslint ./src",
     "lint-fix": "eslint ./src --fix",
     "prepare": "husky install"
