@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {debounce} from "lodash";
 import {Input} from "antd";
 
@@ -11,5 +12,13 @@ const Search = ({onMovie}) => {
         </div>
     )
 };
+
+Search.defaultProps = {
+    onMovie: () => {}
+}
+
+Search.propTypes = {
+    onMovie: PropTypes.func
+}
 
 export default Search;

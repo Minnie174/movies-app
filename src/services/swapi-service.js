@@ -15,12 +15,6 @@ export default class SwapiService {
         return body;
     }
 
-    async getJack() {
-        const res1 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=Jack`);
-        console.log(res1)
-        return res1;
-    }
-
     async getMovie(query) {
         const res2 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}`);
         return res2;
@@ -28,7 +22,6 @@ export default class SwapiService {
 
     async nextPage(query, pageNum) {
         const res3 = await this.getResource(`${this.apiBase}search/movie?api_key=${this.apiKey}&query=${query}&page=${pageNum}`);
-        console.log(res3);
         return res3;
     } // переключает пагинацию
 
@@ -36,4 +29,5 @@ export default class SwapiService {
         const res4 = await this.getResource(`${this.apiBase}genre/movie/list?api_key=${this.apiKey}`)
         return res4.genres;
     } // выводит массив с жанрами
+
 };
