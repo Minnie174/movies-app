@@ -1,3 +1,3 @@
-# movies-app
+vercel
 
-https://minnie174.github.io/movies-app/
+https://movies-minnie174.vercel.app/
