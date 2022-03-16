@@ -6,6 +6,14 @@
     display: flex;
     color: #000000;
 }
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .rating {
     width: 30px;
     height: 30px;
@@ -20,4 +28,21 @@
 
 .year {
     color: #827E7E;
+}
+
+.bad-rated {
+    border: 2px solid #E90000;
+}
+.so-rated {
+    border: 2px solid #E97E00;
+}
+.normal-rated {
+    border: 2px solid #E9D100;
+}
+.good-rated {
+    border: 2px solid #66E900;
+}
+
+.rated-text {
+    align-self: center;
 }

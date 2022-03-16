@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 import { Rate, Tag } from "antd";
 import { format } from 'date-fns';
 import { GetGenresConsumer } from "../../services/api-service-context";
@@ -35,13 +36,18 @@ export default class MovieCard extends Component {
 
         const picture = image === null ? '/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg' : image // заглушка
 
-            return (
+        const genresClass = classNames('rating',{'bad-rated': rating < 3}, {'so-rated': rating > 3 && rating < 5}, {'normal-rated':rating > 5 && rating < 7}, {'good-rated': rating >= 7 })
+
+
+        return (
                 <div className="movie">
                     <img alt="Poster" className="poster" src={`https://image.tmdb.org/t/p/w500${picture}`}/>
                     <div className="description">
-                        <div className="title">{title}</div>
-                        <div className="rating">
-                            <span className="rate">{rating}</span>
+                        <div className="flex">
+                            <div className="title">{title}</div>
+                            <div className={genresClass}>
+                                <span className="rate">{rating}</span>
+                            </div>
                         </div>
                         <div className="year">{this.getDate(year)}</div>
                         <GetGenresConsumer>

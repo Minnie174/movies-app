@@ -24,7 +24,6 @@ body {
 
 .movie {
     display: flex;
-    justify-content: space-between;
     width: 450px;
     height: 280px;
     margin: 20px;
