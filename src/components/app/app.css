@@ -13,6 +13,12 @@ body {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .wrapper {
+        width: 400px;
+    }
+}
+
 .movie-cards {
     display: flex;
     flex-direction: row;
@@ -20,6 +26,12 @@ body {
     background-color: white;
     align-items: center;
     flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .movie-cards {
+        flex-direction: column;
+    }
 }
 
 .movie {
@@ -30,9 +42,27 @@ body {
     box-shadow: 5px 4px 12px -6px rgba(0, 0, 0, 0.15);
 }
 
+@media (max-width: 768px) {
+    .movie {
+        width: 380px;
+        height: 245px;
+        margin: 10px;
+    }
+}
+
 .poster {
     width: 185px;
     height: 280px;
+}
+
+@media (max-width: 768px) {
+    .poster {
+        position: absolute;
+        width: 60px;
+        height: 91px;
+        margin-left: 15px;
+        margin-top: 10px;
+    }
 }
 
 .description {
@@ -49,15 +79,34 @@ body {
     line-height: 28px;
 }
 
+@media (max-width: 768px) {
+    .title {
+        margin-left: 65px;
+        width: 250px;
+    }
+}
+
 .year {
     font-weight: 400;
     font-size: 12px;
     line-height: 22px;
 }
 
+@media (max-width: 768px) {
+    .year {
+        margin-left: 65px;
+    }
+}
+
 .genre {
     font-size: 12px;
     line-height: 15px;
+}
+
+@media (max-width: 768px) {
+    .genre {
+        margin-left: 65px;
+    }
 }
 
 .info {

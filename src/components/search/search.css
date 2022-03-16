@@ -1,9 +1,23 @@
 .input {
     display: block;
-    width: 938px;
+    width: 388px;
     height: 40px;
-    margin: 20px auto 0 auto;
+    margin: 20px auto 10px auto;
     border: 1px solid #D9D9D9;
     border-radius: 4px;
     color: black;
+}
+
+@media (min-width: 768px) {
+    .input {
+        width: 648px;
+        height: 40px;
+    }
+}
+
+@media (min-width: 1100px) {
+    .input {
+        width: 938px;
+        height: 40px;
+    }
 }
